@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
   { label: "About", href: "#about" },
   { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Certifications", href: "#certifications" },
   { label: "Contact", href: "#contact" },
@@ -13,80 +12,121 @@ const navItems = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const menuMotion = shouldReduceMotion
     ? { initial: false, animate: { opacity: 1 }, exit: { opacity: 0 } }
     : {
-        initial: { opacity: 0, y: -8 },
-        animate: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -8 },
-        transition: { duration: 0.18, ease: "easeOut" },
+        initial: { opacity: 0, y: -6, scale: 0.98 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        exit: { opacity: 0, y: -6, scale: 0.98 },
+        transition: { duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] },
       };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/88 shadow-nav backdrop-blur-xl">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+      style={{
+        background: scrolled ? "var(--nav-bg)" : "transparent",
+        backdropFilter: scrolled ? "blur(40px) saturate(180%)" : "none",
+        WebkitBackdropFilter: scrolled ? "blur(40px) saturate(180%)" : "none",
+        borderBottom: scrolled
+          ? "0.5px solid var(--nav-border)"
+          : "0.5px solid transparent",
+      }}
+    >
       <nav
-        className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+        className="mx-auto flex h-[52px] w-full max-w-6xl items-center justify-between px-5 sm:px-8"
         aria-label="Primary navigation"
       >
+        {/* Logo */}
         <a
           href="#top"
-          className="group inline-flex items-center gap-3 rounded-md text-primary outline-none transition focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-          aria-label="Go to homepage"
+          className="flex items-center gap-2.5 apple-focus rounded-lg"
+          aria-label="Art Cabiao – go to top"
         >
-          <span className="grid h-9 w-9 place-items-center rounded-md border border-accent/30 bg-surface text-sm font-semibold text-accent transition group-hover:border-accent group-hover:bg-accent/10">
+          <span
+            className="grid h-8 w-8 place-items-center rounded-lg text-sm font-bold text-white"
+            style={{
+              background: "linear-gradient(135deg, var(--accent) 0%, #5ac8f5 100%)",
+              boxShadow: "0 2px 12px var(--glow-color)",
+            }}
+          >
             AC
           </span>
-          <span className="hidden text-sm font-semibold tracking-normal sm:block">
+          <span className="hidden text-sm font-medium tracking-tight text-primary sm:block">
             Art Cabiao
           </span>
         </a>
 
-        <div className="hidden items-center gap-1 md:flex">
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-0.5 md:flex">
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="rounded-md px-3 py-2 text-sm font-medium text-secondary outline-none transition hover:bg-elevated hover:text-primary focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="rounded-lg px-3.5 py-2 text-sm font-medium text-secondary transition-colors duration-200 hover:text-primary apple-focus"
             >
               {item.label}
             </a>
           ))}
         </div>
 
-        <a
-          href="#contact"
-          className="hidden rounded-md border border-accent/50 bg-accent px-4 py-2 text-sm font-semibold text-background outline-none transition hover:border-accent hover:bg-accent/90 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:inline-flex"
-        >
-          Let&apos;s Talk
-        </a>
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          {/* CTA */}
+          <a
+            href="#contact"
+            className="btn-primary hidden text-sm md:inline-flex apple-focus"
+            style={{ padding: "8px 20px", fontSize: "0.875rem" }}
+          >
+            Let&apos;s Talk
+          </a>
 
-        <button
-          type="button"
-          className="inline-grid h-10 w-10 place-items-center rounded-md border border-border bg-surface text-primary outline-none transition hover:border-accent/60 hover:bg-elevated focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:hidden"
-          aria-controls="mobile-navigation"
-          aria-expanded={isOpen}
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          onClick={() => setIsOpen((current) => !current)}
-        >
-          {isOpen ? <X aria-hidden="true" size={20} /> : <Menu aria-hidden="true" size={20} />}
-        </button>
+          {/* Mobile hamburger */}
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              type="button"
+              className="icon-btn apple-focus"
+              style={{ width: 36, height: 36 }}
+              aria-controls="mobile-navigation"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              onClick={() => setIsOpen((v) => !v)}
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
+        </div>
       </nav>
 
+      {/* Mobile menu */}
       <AnimatePresence>
-        {isOpen ? (
+        {isOpen && (
           <motion.div
             id="mobile-navigation"
-            className="border-t border-border bg-background px-4 py-3 md:hidden"
+            className="px-5 pb-4 md:hidden"
+            style={{
+              borderTop: "0.5px solid var(--nav-border)",
+              background: "var(--nav-mobile-bg)",
+              backdropFilter: "blur(40px)",
+              WebkitBackdropFilter: "blur(40px)",
+            }}
             {...menuMotion}
           >
-            <div className="mx-auto flex max-w-7xl flex-col gap-1">
+            <div className="mx-auto flex max-w-6xl flex-col gap-0.5 pt-2">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="rounded-md px-3 py-3 text-sm font-medium text-secondary outline-none transition hover:bg-elevated hover:text-primary focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  className="rounded-xl px-4 py-3 text-sm font-medium text-secondary transition-colors hover:bg-elevated hover:text-primary"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
@@ -94,14 +134,14 @@ export function Navbar() {
               ))}
               <a
                 href="#contact"
-                className="mt-2 rounded-md bg-accent px-3 py-3 text-center text-sm font-semibold text-background outline-none transition hover:bg-accent/90 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                className="btn-primary mt-3 justify-center text-sm apple-focus"
                 onClick={() => setIsOpen(false)}
               >
                 Let&apos;s Talk
               </a>
             </div>
           </motion.div>
-        ) : null}
+        )}
       </AnimatePresence>
     </header>
   );

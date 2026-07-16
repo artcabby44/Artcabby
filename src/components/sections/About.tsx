@@ -4,105 +4,151 @@ import { ChartNoAxesCombined, ClipboardCheck, ShieldAlert } from "lucide-react";
 const strengths = [
   {
     icon: ShieldAlert,
-    title: "Threat detection and response",
-    description:
-      "I monitor security alerts, investigate risky sign-ins, analyze threat intelligence, and support incident response.",
+    title: "Threat response",
+    description: "Monitor alerts, investigate sign-ins, and lead incident response.",
   },
   {
     icon: ClipboardCheck,
     title: "Security governance",
-    description:
-      "I help business units align with Information Security Policy, ISO 27001 ISMS practices, and PCI DSS controls.",
+    description: "Align teams with ISO 27001 and PCI DSS controls.",
   },
   {
     icon: ChartNoAxesCombined,
-    title: "Automation and reporting",
-    description:
-      "I turn security data into dashboards, documentation, and automated workflows using AppScript and Power Automate.",
+    title: "Automation",
+    description: "Automate workflows and build dashboards with AppScript.",
   },
 ];
 
 const metrics = [
-  { value: "3+", label: "Years in security and compliance roles" },
-  { value: "ISO", label: "27001 ISMS and associate certification" },
-  { value: "XDR", label: "Alert monitoring and incident response" },
+  { value: "3+", label: "Years in security" },
 ];
 
 export function About() {
   const shouldReduceMotion = useReducedMotion();
-  const sectionMotion = shouldReduceMotion
+  const inView = shouldReduceMotion
     ? { initial: false, whileInView: { opacity: 1 } }
     : {
-        initial: { opacity: 0, y: 20 },
+        initial: { opacity: 0, y: 28 },
         whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.5, ease: "easeOut" },
+        transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
       };
 
+  const cardInView = (i: number) =>
+    shouldReduceMotion
+      ? { initial: false, whileInView: { opacity: 1 } }
+      : {
+          initial: { opacity: 0, y: 24 },
+          whileInView: { opacity: 1, y: 0 },
+          transition: {
+            duration: 0.6,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            delay: 0.1 + i * 0.12,
+          },
+        };
+
   return (
-    <section id="about" className="border-t border-border bg-surface/40 py-20 sm:py-24">
-      <motion.div
-        className="mx-auto grid w-full max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.86fr_1fr] lg:px-8"
-        viewport={{ once: true, amount: 0.25 }}
-        {...sectionMotion}
-      >
-        <div>
-          <p className="mb-4 text-xs font-semibold uppercase tracking-normal text-accent">
+    <section id="about" className="relative overflow-hidden py-28 sm:py-36 bg-background">
+      {/* Subtle glow */}
+      <div
+        className="glow-orb"
+        style={{
+          width: 700,
+          height: 700,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(circle, var(--glow-color) 0%, transparent 70%)",
+        }}
+      />
+
+      <hr className="section-divider mx-auto w-full max-w-6xl" />
+
+      <div className="relative mx-auto max-w-6xl px-5 pt-28 sm:px-8">
+        {/* Header */}
+        <motion.div
+          className="mx-auto max-w-3xl text-center"
+          viewport={{ once: true, amount: 0.3 }}
+          {...inView}
+        >
+          <p className="mb-4 text-sm font-semibold label-accent tracking-widest uppercase">
             About
           </p>
-          <h2 className="max-w-xl text-3xl font-semibold leading-tight tracking-normal text-primary sm:text-4xl">
-            I connect security operations, compliance controls, and practical process improvement.
+          <h2
+            className="font-semibold text-primary"
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3.2rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.025em",
+            }}
+          >
+            Connecting security, compliance, and process improvement.
           </h2>
-        </div>
+          <p
+            className="mx-auto mt-6 max-w-xl text-secondary"
+            style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}
+          >
+            Information security professional with hands-on experience in threat
+            detection, incident response, and risk assessment.
+            I build the systems around the work — clear procedures, playbooks,
+            and automation.
+          </p>
+        </motion.div>
 
-        <div>
-          <div className="space-y-5 text-base leading-8 text-secondary sm:text-lg">
-            <p>
-              I am an information security professional with hands-on experience in
-              threat detection, incident response, risk assessment, and security
-              awareness. My work spans DLP and XDR alert investigation, URL analysis,
-              threat intelligence feeds, and internal risk assessments.
-            </p>
-            <p>
-              I also enjoy building the systems around the work: clear procedures,
-              IR playbooks, onboarding security training, dashboard reporting, and
-              automation that removes repetitive effort from security workflows.
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
-            {metrics.map((metric) => (
-              <div
-                key={metric.label}
-                className="rounded-md border border-border bg-background/70 p-4"
+        {/* Metrics */}
+        <motion.div
+          className="mt-16 flex justify-center"
+          viewport={{ once: true, amount: 0.3 }}
+          {...(shouldReduceMotion
+            ? { initial: false, whileInView: { opacity: 1 } }
+            : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] } })}
+        >
+          {metrics.map((m) => (
+            <div
+              key={m.label}
+              className="glass-card rounded-2xl p-5 text-center w-full max-w-[320px]"
+            >
+              <p
+                className="font-bold label-accent"
+                style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", letterSpacing: "-0.03em" }}
               >
-                <p className="text-2xl font-semibold text-primary">{metric.value}</p>
-                <p className="mt-1 text-sm leading-6 text-secondary">{metric.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+                {m.value}
+              </p>
+              <p className="mt-2 text-xs font-medium text-secondary leading-5">{m.label}</p>
+            </div>
+          ))}
+        </motion.div>
 
-        <div className="lg:col-span-2">
-          <div className="grid gap-4 md:grid-cols-3">
-            {strengths.map((item) => {
-              const Icon = item.icon;
-
-              return (
-                <article
-                  key={item.title}
-                  className="rounded-md border border-border bg-background/80 p-5 transition hover:border-accent/50 hover:bg-elevated"
+        {/* Strength cards */}
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {strengths.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.article
+                key={item.title}
+                className="glass-card rounded-2xl p-6"
+                viewport={{ once: true, amount: 0.2 }}
+                {...cardInView(i)}
+              >
+                <div
+                  className="mb-5 grid h-11 w-11 place-items-center rounded-xl"
+                  style={{
+                    background: "var(--glow-color)",
+                    border: "0.5px solid var(--border)",
+                  }}
                 >
-                  <div className="grid h-10 w-10 place-items-center rounded-md border border-accent/30 bg-accent/10 text-accent">
-                    <Icon aria-hidden="true" size={20} />
-                  </div>
-                  <h3 className="mt-5 text-base font-semibold text-primary">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-secondary">{item.description}</p>
-                </article>
-              );
-            })}
-          </div>
+                  <Icon aria-hidden="true" size={20} className="text-accent" />
+                </div>
+                <h3 className="text-base font-semibold text-primary" style={{ letterSpacing: "-0.01em" }}>
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm text-secondary" style={{ lineHeight: 1.7 }}>
+                  {item.description}
+                </p>
+              </motion.article>
+            );
+          })}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

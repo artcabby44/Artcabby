@@ -2,31 +2,240 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color: #f5f7fa;
-  background: #0f1115;
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* ─── Apple System Font Stack & Theme Variables ─── */
+@layer base {
+  :root {
+    --background: #000000;
+    --surface: #151516;
+    --elevated: #1c1c1e;
+    --primary: #f5f5f7;
+    --secondary: #a1a1a6;
+    --accent: #0a84ff;
+    --border: rgba(255, 255, 255, 0.15);
+    --glass-bg: rgba(30, 30, 30, 0.4);
+    --glass-bg-hover: rgba(45, 45, 45, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-hover: rgba(255, 255, 255, 0.16);
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.6);
+    --nav-bg: rgba(0, 0, 0, 0.72);
+    --nav-border: rgba(255, 255, 255, 0.08);
+    --nav-mobile-bg: rgba(0, 0, 0, 0.85);
+    --glow-color: rgba(10, 132, 255, 0.12);
+    
+    color-scheme: dark;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background: var(--background);
+    scroll-behavior: smooth;
+    scrollbar-color: var(--secondary) transparent;
+    scrollbar-width: thin;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--primary);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+      "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 999px;
+  }
 }
 
-* {
-  box-sizing: border-box;
+/* ─── UI Utilities ─── */
+@layer utilities {
+  .text-shimmer {
+    background: linear-gradient(
+      120deg,
+      var(--primary) 0%,
+      var(--secondary) 40%,
+      var(--primary) 60%,
+      var(--secondary) 100%
+    );
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3.5s linear infinite;
+  }
+
+  .label-accent {
+    background: linear-gradient(135deg, var(--accent), #5ac8f5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    border: 0.5px solid var(--glass-border);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .glass-card:hover {
+    background: var(--glass-bg-hover);
+    border-color: var(--glass-border-hover);
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  .section-divider {
+    border: none;
+    height: 0.5px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--border) 20%,
+      var(--border) 80%,
+      transparent
+    );
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+
+  .apple-focus:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--secondary);
+    transition: all 0.2s ease;
+  }
+
+  .pill:hover {
+    background: var(--elevated);
+    color: var(--primary);
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 590;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    border-radius: 980px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(0, 113, 227, 0.4);
+  }
+
+  .btn-primary:active {
+    transform: scale(0.98);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 26px;
+    background: var(--surface);
+    color: var(--primary);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    letter-spacing: -0.01em;
+    border-radius: 980px;
+    border: 0.5px solid var(--border);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .btn-secondary:hover {
+    background: var(--elevated);
+    transform: scale(1.02);
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.98);
+  }
+
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    color: var(--secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .icon-btn:hover {
+    background: var(--elevated);
+    color: var(--primary);
+  }
 }
 
-html {
-  background: #0f1115;
+/* ─── Keyframes ─── */
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
 }
 
-body {
-  min-width: 320px;
-  min-height: 100vh;
-  margin: 0;
-  background: #0f1115;
-}
-
-a {
-  text-decoration: none;
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px var(--accent); }
+  50% { box-shadow: 0 0 25px var(--accent); }
 }

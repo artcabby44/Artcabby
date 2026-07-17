@@ -58,13 +58,13 @@ export function Contact() {
               letterSpacing: "-0.03em",
             }}
           >
-            Let's talk security.
+            Let's talk about security & automation. 
           </h2>
           <p
             className="mx-auto mt-5 max-w-md text-secondary"
             style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}
           >
-            Available for security roles and consulting.
+            
           </p>
 
           <p className="mt-5 flex items-center justify-center gap-2 text-sm text-secondary">

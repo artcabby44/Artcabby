@@ -41,16 +41,7 @@ export function Hero() {
       <section className="relative mx-auto grid min-h-screen w-full max-w-6xl items-center gap-16 px-5 pt-32 pb-20 sm:px-8 lg:grid-cols-[1fr_1fr] lg:pt-36">
         {/* Left: Text */}
         <div className="flex flex-col">
-          {/* Badge */}
-          <motion.div {...fadeUp(0.1)}>
-            <span className="pill mb-6 w-fit">
-              <span
-                className="h-2 w-2 rounded-full animate-pulse-glow"
-                style={{ background: "var(--accent)" }}
-              />
-              Available for opportunities
-            </span>
-          </motion.div>
+          {/* Header removed badge */}
 
           {/* Headline */}
           <motion.h1
@@ -78,28 +69,9 @@ export function Hero() {
             Security specialist focused on threat detection, response, and governance.
           </motion.p>
 
-          {/* Meta pills */}
-          <motion.div className="mt-6 flex flex-wrap gap-2" {...fadeUp(0.4)}>
-            <span className="pill">
-              <MapPin size={13} />
-              Sta. Mesa, Manila
-            </span>
-            <span className="pill">
-              <ShieldCheck size={13} />
-              Security Specialist
-            </span>
-          </motion.div>
+          {/* Meta pills removed */}
 
-          {/* CTAs */}
-          <motion.div className="mt-9 flex flex-wrap gap-3" {...fadeUp(0.48)}>
-            <a href="#experience" className="btn-primary apple-focus">
-              View Experience
-              <ArrowRight size={16} />
-            </a>
-            <a href="#contact" className="btn-secondary apple-focus">
-              Contact Me
-            </a>
-          </motion.div>
+          {/* CTAs removed */}
 
           {/* Social icons */}
           <motion.div className="mt-8 flex items-center gap-2.5" aria-label="Social links" {...fadeUp(0.56)}>
@@ -164,7 +136,7 @@ export function Hero() {
             >
               <span className="h-2 w-2 rounded-full bg-[#30d158] animate-pulse" />
               <span className="text-xs font-medium text-[#f5f5f7]">
-                I also enjoy hiking.
+                Online
               </span>
             </div>
           </div>

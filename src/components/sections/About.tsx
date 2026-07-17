@@ -19,19 +19,8 @@ const strengths = [
   },
 ];
 
-const metrics = [
-  { value: "3+", label: "Years in security" },
-];
-
 export function About() {
   const shouldReduceMotion = useReducedMotion();
-  const inView = shouldReduceMotion
-    ? { initial: false, whileInView: { opacity: 1 } }
-    : {
-        initial: { opacity: 0, y: 28 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
-      };
 
   const cardInView = (i: number) =>
     shouldReduceMotion
@@ -47,7 +36,7 @@ export function About() {
         };
 
   return (
-    <section id="about" className="relative overflow-hidden py-28 sm:py-36 bg-background">
+    <section id="about" className="relative py-28 sm:py-36 bg-background">
       {/* Subtle glow */}
       <div
         className="glow-orb"
@@ -64,84 +53,51 @@ export function About() {
       <hr className="section-divider mx-auto w-full max-w-6xl" />
 
       <div className="relative mx-auto max-w-6xl px-5 pt-28 sm:px-8">
-        {/* Header */}
+        {/* Sleek, minimal header */}
         <motion.div
-          className="mx-auto max-w-3xl text-center"
+          className="mx-auto max-w-4xl text-center mb-24"
           viewport={{ once: true, amount: 0.3 }}
-          {...inView}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
         >
-          <p className="mb-4 text-sm font-semibold label-accent tracking-widest uppercase">
-            About
-          </p>
           <h2
             className="font-semibold text-primary"
             style={{
-              fontSize: "clamp(2rem, 4vw, 3.2rem)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.025em",
+              fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+              lineHeight: 1.05,
+              letterSpacing: "-0.03em",
             }}
           >
-            Connecting security, compliance, and process improvement.
+            Connecting security, compliance, <br className="hidden md:block" />
+            <span className="text-secondary">and process improvement.</span>
           </h2>
-          <p
-            className="mx-auto mt-6 max-w-xl text-secondary"
-            style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}
-          >
-            Information security professional with hands-on experience in threat
-            detection, incident response, and risk assessment.
-            I build the systems around the work — clear procedures, playbooks,
-            and automation.
-          </p>
-        </motion.div>
-
-        {/* Metrics */}
-        <motion.div
-          className="mt-16 flex justify-center"
-          viewport={{ once: true, amount: 0.3 }}
-          {...(shouldReduceMotion
-            ? { initial: false, whileInView: { opacity: 1 } }
-            : { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, transition: { duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] } })}
-        >
-          {metrics.map((m) => (
-            <div
-              key={m.label}
-              className="glass-card rounded-2xl p-5 text-center w-full max-w-[320px]"
-            >
-              <p
-                className="font-bold label-accent"
-                style={{ fontSize: "clamp(1.6rem, 3vw, 2.4rem)", letterSpacing: "-0.03em" }}
-              >
-                {m.value}
-              </p>
-              <p className="mt-2 text-xs font-medium text-secondary leading-5">{m.label}</p>
-            </div>
-          ))}
         </motion.div>
 
         {/* Strength cards */}
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           {strengths.map((item, i) => {
             const Icon = item.icon;
             return (
               <motion.article
                 key={item.title}
-                className="glass-card rounded-2xl p-6"
+                className="glass-card rounded-2xl p-8"
                 viewport={{ once: true, amount: 0.2 }}
                 {...cardInView(i)}
               >
                 <div
-                  className="mb-5 grid h-11 w-11 place-items-center rounded-xl"
+                  className="mb-6 grid h-12 w-12 place-items-center rounded-xl"
                   style={{
                     background: "var(--glow-color)",
                     border: "0.5px solid var(--border)",
                   }}
                 >
-                  <Icon aria-hidden="true" size={20} className="text-accent" />
+                  <Icon aria-hidden="true" size={22} className="text-accent" />
                 </div>
-                <h3 className="text-base font-semibold text-primary" style={{ letterSpacing: "-0.01em" }}>
+                <h3 className="text-lg font-semibold text-primary" style={{ letterSpacing: "-0.01em" }}>
                   {item.title}
                 </h3>
-                <p className="mt-3 text-sm text-secondary" style={{ lineHeight: 1.7 }}>
+                <p className="mt-3 text-sm text-secondary" style={{ lineHeight: 1.6 }}>
                   {item.description}
                 </p>
               </motion.article>

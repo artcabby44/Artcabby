@@ -1,94 +1,117 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Bot, FileText, LayoutDashboard } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import suriIcon from "../../assets/suri_scan_icon_1784276356733.jpg";
+import cathatiIcon from "../../assets/cathati_icon_1784276365537.jpg";
+import wattwiseIcon from "../../assets/wattwiseph_icon_1784276375747.jpg";
+import duckraceIcon from "../../assets/duck_race_icon_1784276384534.jpg";
 
 const projects = [
   {
-    title: "Security Reporting Dashboards",
-    icon: LayoutDashboard,
-    description:
-      "Built interactive dashboards for real-time visibility into security-related data, reporting trends, and operational insights.",
-    tags: ["Looker", "Data Analysis", "Security Metrics"],
+    title: "S.U.R.I.",
+    description: "Suspicious URL Reputation Inspector. Enterprise-grade threat intelligence.",
+    link: "https://suri-scan.vercel.app/",
+    icon: suriIcon,
   },
   {
-    title: "Workflow Automation",
-    icon: Bot,
-    description:
-      "Used AppScript and Power Automate to reduce repetitive tasks, improve handoffs, and streamline security process workflows.",
-    tags: ["AppScript", "Power Automate", "Process Improvement"],
+    title: "CatHati",
+    description: "Split bills with friends, instantly. No sign-up, no server, just fair math.",
+    link: "https://cathati.vercel.app/",
+    icon: cathatiIcon,
   },
   {
-    title: "IR Playbooks and Procedures",
-    icon: FileText,
-    description:
-      "Developed standardized procedures and incident response playbooks to guide new security processes and response activities.",
-    tags: ["Incident Response", "Documentation", "XDR"],
+    title: "WattWisePH",
+    description: "Philippine Electricity & Appliance Bill Calculator based on Meralco rates.",
+    link: "https://wattwiseph.vercel.app/",
+    icon: wattwiseIcon,
+  },
+  {
+    title: "Duck Race",
+    description: "Animated duck racing game — fair, fun, and mathematically dramatic.",
+    link: "https://duckyrace.vercel.app/",
+    icon: duckraceIcon,
   },
 ];
 
 export function Projects() {
   const shouldReduceMotion = useReducedMotion();
-  const motionProps = shouldReduceMotion
-    ? { initial: false, whileInView: { opacity: 1 } }
-    : {
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        transition: { duration: 0.5, ease: "easeOut" },
-      };
+
+  const cardAnim = (i: number) =>
+    shouldReduceMotion
+      ? { initial: false, whileInView: { opacity: 1 } }
+      : {
+          initial: { opacity: 0, y: 32 },
+          whileInView: { opacity: 1, y: 0 },
+          transition: {
+            duration: 0.6,
+            ease: [0.25, 0.46, 0.45, 0.94],
+            delay: 0.1 + i * 0.1,
+          },
+        };
 
   return (
-    <section id="projects" className="border-t border-border bg-surface/40 py-20 sm:py-24">
-      <motion.div
-        className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
-        viewport={{ once: true, amount: 0.22 }}
-        {...motionProps}
-      >
-        <div className="grid gap-8 lg:grid-cols-[0.78fr_1fr] lg:items-end">
-          <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-normal text-accent">
-              Projects
-            </p>
-            <h2 className="max-w-2xl text-3xl font-semibold leading-tight tracking-normal text-primary sm:text-4xl">
-              Practical security work translated into repeatable systems.
-            </h2>
-          </div>
-          <a
-            href="https://github.com/artcabby44"
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-border bg-background px-5 py-3 text-sm font-semibold text-primary outline-none transition hover:border-accent/50 hover:bg-elevated focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:justify-self-end"
+    <section id="projects" className="relative py-28 sm:py-36 bg-background">
+      <hr className="section-divider mx-auto w-full max-w-6xl mb-0" />
+      <div className="relative mx-auto max-w-6xl px-5 pt-28 sm:px-8">
+        {/* Header */}
+        <motion.div
+          className="mb-16"
+          viewport={{ once: true, amount: 0.4 }}
+          initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          <p className="mb-3 text-sm font-semibold label-accent tracking-widest uppercase">
+            Projects
+          </p>
+          <h2
+            className="font-semibold text-primary"
+            style={{
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.025em",
+            }}
           >
-            GitHub
-            <ArrowUpRight aria-hidden="true" size={18} />
-          </a>
-        </div>
+            Built for security, utility, and fun.
+          </h2>
+        </motion.div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {projects.map((project) => {
-            const Icon = project.icon;
-
-            return (
-              <article
-                key={project.title}
-                className="rounded-md border border-border bg-background/80 p-5 transition hover:border-accent/50 hover:bg-elevated"
-              >
-                <div className="grid h-11 w-11 place-items-center rounded-md border border-accent/30 bg-accent/10 text-accent">
-                  <Icon aria-hidden="true" size={21} />
+        {/* Grid */}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {projects.map((project, i) => (
+            <motion.a
+              key={project.title}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass-card group flex flex-col rounded-3xl p-6 apple-focus"
+              viewport={{ once: true, amount: 0.2 }}
+              {...cardAnim(i)}
+            >
+              <div className="mb-6 flex justify-between items-start">
+                <div className="overflow-hidden rounded-2xl w-20 h-20 shadow-xl border border-white/10 shrink-0 bg-elevated">
+                  <img
+                    src={project.icon}
+                    alt={`${project.title} icon`}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-primary">{project.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-secondary">{project.description}</p>
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-md border border-border bg-surface px-3 py-2 text-xs font-medium text-secondary"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="grid h-8 w-8 place-items-center rounded-full bg-surface border border-border transition-colors group-hover:bg-elevated text-secondary group-hover:text-primary">
+                  <ArrowUpRight size={16} />
                 </div>
-              </article>
-            );
-          })}
+              </div>
+              
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-primary mb-2" style={{ letterSpacing: "-0.01em" }}>
+                  {project.title}
+                </h3>
+                <p className="text-sm text-secondary" style={{ lineHeight: 1.6 }}>
+                  {project.description}
+                </p>
+              </div>
+            </motion.a>
+          ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
